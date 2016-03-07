@@ -1,40 +1,39 @@
 {
-    "name": "carebot",
-    "version": "0.0.1",
-    "description": "sc flowdock bot",
-    "main": "index.js",
-    "scripts": {
-        "start": "node_modules/.bin/nodemon lib/index.js --exec babel-node",
-        "build": "node_modules/.bin/babel lib -d dist",
-        "test": "node_modules/.bin/karma start karma.conf.js --auto-watch --no-color",
-        "test-ci": "node_modules/.bin/karma start karma.conf.js --single-run --browsers=Chrome_travis_ci"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/gempesaw/carebot.git"
-    },
-    "keywords": [
-        "flowdock",
-        "chat",
-        "bot",
-        "butler"
-    ],
-    "author": "Daniel Gempesaw <gempesaw@gmail.com>",
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/gempesaw/carebot/issues"
-    },
-    "homepage": "https://github.com/gempesaw/carebot#readme",
-    "dependencies": {
-        "flowdock": "^0.9.0"
-    },
-    "devDependencies": {
-        "babel-cli": "^6.6.5",
-        "babel-preset-es2015": "^6.6.0",
-        "jasmine-core": "^2.4.1",
-        "karma": "^0.13.21",
-        "karma-chrome-launcher": "^0.2.2",
-        "karma-jasmine": "^0.3.7",
-        "nodemon": "^1.9.1"
-    }
+  "name": "carebot",
+  "version": "0.0.1",
+  "description": "sc flowdock bot",
+  "main": "index.js",
+  "scripts": {
+    "start": "node_modules/.bin/nodemon lib/index.js --exec babel-node",
+    "build": "node_modules/.bin/babel lib -d dist",
+    "test": "mocha --compilers js:babel-register --no-colors --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gempesaw/carebot.git"
+  },
+  "keywords": [
+    "flowdock",
+    "chat",
+    "bot",
+    "butler"
+  ],
+  "author": "Daniel Gempesaw <gempesaw@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gempesaw/carebot/issues"
+  },
+  "homepage": "https://github.com/gempesaw/carebot#readme",
+  "dependencies": {
+    "flowdock": "^0.9.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.6.5",
+    "babel-preset-es2015": "^6.6.0",
+    "babel-register": "^6.6.5",
+    "chai": "^3.5.0",
+    "mocha": "^2.4.5",
+    "nodemon": "^1.9.1",
+    "sinon": "^1.17.3"
+  }
 }
