@@ -1,5 +1,5 @@
 {
-  "name": "carebot",
+  "name": "flowbot",
   "version": "0.0.1",
   "description": "sc flowdock bot",
   "main": "index.js",
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gempesaw/carebot.git"
+    "url": "git+https://github.com/gempesaw/flowbot.git"
   },
   "keywords": [
     "flowdock",
@@ -21,9 +21,9 @@
   "author": "Daniel Gempesaw <gempesaw@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/gempesaw/carebot/issues"
+    "url": "https://github.com/gempesaw/flowbot/issues"
   },
-  "homepage": "https://github.com/gempesaw/carebot#readme",
+  "homepage": "https://github.com/gempesaw/flowbot#readme",
   "dependencies": {
     "flowdock": "^0.9.0"
   },
