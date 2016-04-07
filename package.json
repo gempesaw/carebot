@@ -6,7 +6,9 @@
   "scripts": {
     "start": "node_modules/.bin/nodemon lib/index.js --exec babel-node",
     "build": "node_modules/.bin/babel lib -d dist",
-    "test": "mocha --compilers js:babel-register --no-colors --watch"
+    "test": "mocha --compilers js:babel-register --no-colors --watch",
+    "lint": "eslint .",
+    "validate": "npm ls"
   },
   "repository": {
     "type": "git",
@@ -15,8 +17,7 @@
   "keywords": [
     "flowdock",
     "chat",
-    "bot",
-    "butler"
+    "bot"
   ],
   "author": "Daniel Gempesaw <gempesaw@gmail.com>",
   "license": "MIT",
@@ -34,6 +35,8 @@
     "chai": "^3.5.0",
     "mocha": "^2.4.5",
     "nodemon": "^1.9.1",
+    "precommit-hook-eslint": "^3.0.0",
     "sinon": "^1.17.3"
-  }
+  },
+  "pre-commit": ["lint"]
 }
