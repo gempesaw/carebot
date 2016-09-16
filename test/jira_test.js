@@ -1,7 +1,7 @@
 import { expect } from 'chai';
-import { handleJira, getLastTicket } from '~/lib/commands/jira';
+import { persistJira, getLastTicket } from '~/lib/commands/jira';
 
-describe('jira lookup', () => {
+describe('JIRA assist', () => {
     let messageWithTicket;
     beforeEach( () => {
         messageWithTicket = {
@@ -13,7 +13,7 @@ describe('jira lookup', () => {
     });
 
     it('should persist the most recently mentioned ticket', () => {
-        handleJira(messageWithTicket);
+        persistJira(messageWithTicket);
         expect(getLastTicket()).to.equal('SC-12345');
     });
 
