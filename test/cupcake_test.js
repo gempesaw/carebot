@@ -1,12 +1,21 @@
 import { expect } from 'chai';
-import getCupcake from '~/lib/commands/cupcake';
-import * as fs from 'fs';
+
+import handleCommand from '~/lib/commands';
 
 describe('Cupcake lookup', () => {
-    it('should save a screenshot of the cupcake', () => {
-        let file = getCupcake();
-        expect(!!fs.openSync('/Users/dgempesaw/.CFUserTextEncoding', 'r'))
-            .to.be.true;
+    let event;
+    beforeEach( () => {
+        event = {
+            flow: 'flow',
+            id: 'id'
+        };
     });
 
+    it('should respond with the cupcake thumbnail', (done) => {
+        event.content = '.cupcake';
+        handleCommand(event).then(reply => {
+            expect(reply).to.match(/ustream/);
+            done();
+        });
+    });
 });
