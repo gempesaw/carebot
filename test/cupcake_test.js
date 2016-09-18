@@ -9,4 +9,10 @@ describe('Cupcake lookup', () => {
             done();
         });
     });
+
+    it('should provide an enhanced cupcake screenshot', (done) => {
+        handleCommand({ content: '.enhance' }).then(reply => {
+            done();
+        });
+    }).timeout(10000);
 });
