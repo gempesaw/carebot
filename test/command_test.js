@@ -1,28 +1,26 @@
 import { expect } from 'chai';
 import handleCommand from '~/lib/commands';
+import td from 'testdouble';
 
 describe('Commands', () => {
-    it('should list available commands for help', (done) => {
-        handleCommand({ content: '.help' }).then(reply => {
-            expect(reply).to.match(/\.commands/);
-            expect(reply).to.match(/\.help/);
-            done();
-        });
+    it('should execute the associated command action', async function () {
+        let action = td.function('action');
+        let event = { content: '.cmd' };
+        let commands = {
+            cmd: () => new Promise((resolve, reject) => resolve(action('reply')))
+        };
+
+        await handleCommand(event, commands);
+        td.verify(action('reply'));
     });
 
-    it('should list commands when invalid command is sent', (done) => {
-        handleCommand({ content: '.invalid' }).then(reply => {
-            expect(reply).to.match(/\.commands/);
-            expect(reply).to.match(/\.help/);
-            done();
-        });
+    it('should list commands when invalid command is sent', async function () {
+        let reply = await handleCommand({ content: '.invalid' }, {});
+        expect(reply).to.match(/don't understand/);
     });
 
-    it('should ignore non-prefixed messages', (done) => {
-        handleCommand({ content: 'ignore' }).catch(err => {
-            expect(err).to.match(/nothing/);
-            done();
-        });
-
+    it('should ignore non-prefixed messages', async function () {
+        let reply = await handleCommand({ content: 'ignore' }, {});
+        expect(reply).to.be.falsy;
     });
 });
