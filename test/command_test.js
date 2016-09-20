@@ -15,8 +15,17 @@ describe('Commands', () => {
     });
 
     it('should list commands when invalid command is sent', async function () {
-        let reply = await handleCommand({ content: '.invalid' }, {});
-        expect(reply).to.match(/don't understand/);
+        let event = { content: '.invalid' };
+        let commands = { assert: () => {} };
+
+        let reply = await handleCommand(event, commands);
+        expect(reply).to.match(/assert/);
+    });
+
+    it('should only respond to period-prefixed messages', async function () {
+        let event = { content: 'no-prefix' };
+        let reply = await handleCommand(event, {});
+        expect(reply).to.be.falsy;
     });
 
     it('should ignore non-prefixed messages', async function () {
