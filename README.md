@@ -6,3 +6,21 @@ features like async/await, the import/export stuff, etc. It uses
 [node-flowdock] to interface with Flowdock.
 
 [node-flowdock]: https://github.com/flowdock/node-flowdock
+
+# usage
+
+You need to add a Flowdock API token to `/lib/config.js`, or else the
+service will crash with a 401. Afterwards, `npm start` will start the
+bot. `npm run start-watch` will start the app and watch for file
+changes to restart the app.
+
+# tests
+
+`npm test` will run all the tests once.
+
+`npm run test-watch` will run the tests and watch for file changes and
+re-run the tests.
+
+# license
+
+MIT
