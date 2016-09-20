@@ -8,7 +8,7 @@
     "start-watch": "node_modules/.bin/nodemon lib/index.js --exec babel-node",
     "test": "mocha --compilers js:babel-register --require babel-polyfill",
     "test-watch": "mocha --compilers js:babel-register --require babel-polyfill --watch",
-    "lint": "eslint .",
+    "lint": "node_modules/.bin/eslint .",
     "validate": "npm ls"
   },
   "repository": {
@@ -39,6 +39,7 @@
     "babel-preset-stage-3": "^6.11.0",
     "babel-register": "^6.6.5",
     "chai": "^3.5.0",
+    "eslint": "^3.5.0",
     "memoizee": "^0.4.1",
     "mocha": "^2.4.5",
     "nodemon": "^1.9.1",
