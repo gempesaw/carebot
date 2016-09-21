@@ -32,4 +32,9 @@ describe('Commands', () => {
         let reply = await handleCommand({ content: 'ignore' }, {});
         expect(reply).to.be.falsy;
     });
+
+    it('should not bother with enhance in a private flow', async function () {
+        let reply = await handleCommand({ content: '.enhance' });
+        expect(reply).to.match(/cannot upload.*private/);
+    });
 });
