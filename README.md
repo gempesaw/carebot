@@ -10,9 +10,23 @@ features like async/await, the import/export stuff, etc. It uses
 # usage
 
 You need to add a Flowdock API token to `/lib/config.js`, or else the
-service will crash with a 401. Afterwards, `npm start` will start the
-bot. `npm run start-watch` will start the app and watch for file
-changes to restart the app.
+service will crash with a 401. Install the deps
+
+```bash
+$ npm i
+```
+
+and start the app
+
+```bash
+$ npm start
+$ npm run start-watch # watch for file changes
+```
+
+Unfortunately, `node-flowdock` has a dependency on a project called 
+[buffertools], which may be difficult to install on Windows.
+
+[buffertools]: https://github.com/bnoordhuis/node-buffertools
 
 # tests
 
