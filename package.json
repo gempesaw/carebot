@@ -28,7 +28,7 @@
   "homepage": "https://github.com/gempesaw/flowbot#readme",
   "dependencies": {
     "chromedriver": "^2.22.2",
-    "flowdock": "^0.9.0",
+    "flowdock": "gempesaw/node-flowdock#a545e7bb",
     "selenium-webdriver": "^3.0.0-beta-2",
     "wavy": "^1.0.0"
   },
