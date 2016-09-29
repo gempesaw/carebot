@@ -7,7 +7,7 @@ describe('Commands', () => {
         let action = td.function('action');
         let event = { content: '.cmd' };
         let commands = {
-            cmd: () => new Promise((resolve, reject) => resolve(action('reply')))
+            cmd: () => Promise.resolve(action('reply'))
         };
 
         await handleCommand(event, commands);

@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-
 import handleCommand from '~/lib/commands';
 
 describe('Cupcake lookup', () => {
