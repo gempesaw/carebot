@@ -20,4 +20,10 @@ describe('Parsing commands', () => {
         const assert = parseAction(`.${content}`, commands);
         expect(assert).to.equal(commands[content.toLowerCase()]);
     });
+
+    it('should ignore surrounding whitespace', () => {
+        const content = '.key     ';
+        const assert = parseAction(content, commands);
+        expect(assert).to.equal(commands.key);
+    });
 });
