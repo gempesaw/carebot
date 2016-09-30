@@ -2,15 +2,22 @@ import { expect } from 'chai';
 import parseAction from '~/lib/parser';
 
 describe('Parsing commands', () => {
-    let content, commands;
+    let commands;
     beforeEach(() => {
-        content = '.name';
         commands = {
-            name: 'value'
+            key: 'value'
         };
     });
 
-    it('should handle exact string matches', () => {
-        expect(parseAction(content, commands)).to.be.truthy;
+    it('should parse exact string matches', () => {
+        const content = 'key';
+        const assert = parseAction(`.${content}`, commands);
+        expect(assert).to.equal(commands[content]);
+    });
+
+    it('should ignore case during matches', () => {
+        const content = 'KeY';
+        const assert = parseAction(`.${content}`, commands);
+        expect(assert).to.equal(commands[content.toLowerCase()]);
     });
 });
