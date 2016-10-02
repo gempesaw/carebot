@@ -28,4 +28,9 @@ describe('YourPie', () => {
         let url = getYourpieLink(email);
         expect(url).to.include(email);
     });
+
+    it('should short circuit without an email', async function () {
+        let res = await claimYourpieDeal({ content: '.yourpie' });
+        expect(res).to.include('.yourpie email@example.org');
+    });
 });
