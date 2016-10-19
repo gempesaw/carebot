@@ -30,11 +30,16 @@ describe('Commands', () => {
 
     it('should ignore non-prefixed messages', async function () {
         let reply = await handleCommand({ content: 'ignore' }, {});
-        expect(reply).to.be.falsy;
+        expect(reply).to.be.undefined;
     });
 
     it('should not bother with enhance in a private flow', async function () {
         let reply = await handleCommand({ content: '.enhance' });
         expect(reply).to.match(/cannot upload.*private/);
+    });
+
+    it('should not respond to .. prefixed messages', async function () {
+        let reply = await handleCommand({ content: '...' });
+        expect(reply).to.be.undefined;
     });
 });
