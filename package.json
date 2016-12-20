@@ -43,11 +43,13 @@
     "babel-register": "^6.6.5",
     "chai": "^3.5.0",
     "eslint": "^3.5.0",
+    "fs-promise": "^1.0.0",
     "memoizee": "^0.4.1",
     "mocha": "^2.4.5",
     "nodemon": "^1.9.1",
     "precommit-hook-eslint": "^3.0.0",
-    "testdouble": "^1.6.0"
+    "testdouble": "^1.6.0",
+    "tmp-promise": "^1.0.2"
   },
   "pre-commit": [
     "lint"
