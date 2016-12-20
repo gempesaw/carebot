@@ -4,11 +4,11 @@
   "description": "sc flowdock bot",
   "main": "index.js",
   "scripts": {
-    "start": "node_modules/.bin/babel-node lib/index.js",
-    "start-watch": "node_modules/.bin/nodemon lib/index.js --exec babel-node",
+    "start": "babel-node lib/index.js",
+    "start-watch": "nodemon lib/index.js --exec babel-node",
     "test": "mocha --compilers js:babel-register --require babel-polyfill",
     "test-watch": "mocha --compilers js:babel-register --require babel-polyfill --watch",
-    "lint": "node_modules/.bin/eslint .",
+    "lint": "eslint .",
     "validate": "npm ls",
     "deploy": "bash deploy.sh"
   },
