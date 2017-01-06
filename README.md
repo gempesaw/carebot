@@ -23,11 +23,6 @@ $ npm start
 $ npm run start-watch # watch for file changes
 ```
 
-Unfortunately, `node-flowdock` has a dependency on a project called 
-[buffertools], which may be difficult to install on Windows.
-
-[buffertools]: https://github.com/bnoordhuis/node-buffertools
-
 # tests
 
 `npm test` will run all the tests once.
