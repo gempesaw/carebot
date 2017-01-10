@@ -28,6 +28,7 @@
   },
   "homepage": "https://github.com/gempesaw/flowbot#readme",
   "dependencies": {
+    "bounded-context-stuff-doer": "github:gempesaw/bounded-context-stuff-doer#develop",
     "chromedriver": "^2.22.2",
     "flowdock": "gempesaw/node-flowdock#a545e7bb",
     "request": "^2.79.0",
@@ -47,7 +48,8 @@
     "mocha": "^2.4.5",
     "nodemon": "^1.9.1",
     "precommit-hook-eslint": "^3.0.0",
-    "testdouble": "^1.6.0"
+    "testdouble": "^1.6.0",
+    "testdouble-timers": "^0.1.0"
   },
   "pre-commit": [
     "lint"
