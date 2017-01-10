@@ -12,12 +12,21 @@ describe('Deploy', () => {
     const event = { content: `.deploy ${context}` };
 
     let clock;
-    let current, newest, update, restart;
+    let current, newest, update, restart, validate;
     beforeEach(() => {
         current = td.replace(bcsd, 'current');
         newest = td.replace(bcsd, 'newest');
         update = td.replace(bcsd, 'update');
         restart = td.replace(bcsd, 'restart');
+        validate = td.replace(bcsd, 'validateContext');
+
+        td.when(bcsd.validateContext(context)).thenReturn(true);
+    });
+
+    it('should reject invalid contexts', async function () {
+        td.when(bcsd.validateContext(context)).thenReturn(false);
+        const res = await queueDeploy(event);
+        expect(res).to.include('a valid context');
     });
 
     it('should respond with the current and newest build', async function () {
@@ -27,6 +36,17 @@ describe('Deploy', () => {
         const res = await queueDeploy(event);
         expect(res).to.include('Current Build: current');
         expect(res).to.include('Newest Build:  newest');
+    });
+
+    it('should do nothing when current is newest', async function () {
+        td.when(bcsd.current(context)).thenReturn('newest');
+        td.when(bcsd.newest(context)).thenReturn('newest');
+        clock = td.timers();
+
+        const res = await queueDeploy(event);
+        clock.tick(8001);
+        expect(res).to.include('already deployed');
+        td.verify(bcsd.update(context, 'newest'), { times: 0});
     });
 
     describe('when not cancelled', () => {
