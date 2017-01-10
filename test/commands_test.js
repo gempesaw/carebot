@@ -7,7 +7,7 @@ describe('Commands', () => {
         let action = td.function('action');
         let event = { content: '.cmd' };
         let commands = {
-            cmd: () => Promise.resolve(action('reply'))
+            cmd: { action: () => Promise.resolve(action('reply')) }
         };
 
         await handleCommand(event, commands);
@@ -16,9 +16,10 @@ describe('Commands', () => {
 
     it('should list commands when invalid command is sent', async function () {
         let event = { content: '.invalid' };
-        let commands = { assert: () => {} };
+        let commands = { assert: { action: () => {} } };
 
         let reply = await handleCommand(event, commands);
+        console.log(reply);
         expect(reply).to.match(/assert/);
     });
 
