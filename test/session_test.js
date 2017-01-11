@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { respondToMessages, sendMessage } from '~/lib/session';
+import { respondToMessages, sendMessage, sendReply } from '~/lib/session';
 import config from '~/lib/config';
 import * as td from 'testdouble';
 
@@ -13,7 +13,7 @@ describe('Session', () => {
     describe('sending messages', () => {
         let session, flow, reply;
         beforeEach(() => {
-            session = td.object(['comment', 'privateMessage']);
+            session = td.object(['comment', 'stream', 'privateMessage']);
             flow = 'flow';
             reply = 'reply';
         });
@@ -33,6 +33,14 @@ describe('Session', () => {
             // do have an event.user
             sendMessage(session, { user }, reply);
             td.verify(session.privateMessage(user, reply));
+        });
+
+        it('should add session to sendReply', () => {
+            td.when(sendMessage(session, { flow }, 'reply'))
+                .thenReturn('message sent');
+            respondToMessages(session, { flow });
+            const ret = sendReply('reply');
+            expect(ret).to.equal('message sent');
         });
 
     });
