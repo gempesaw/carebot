@@ -100,9 +100,20 @@ describe('Deploy', () => {
 
         it('should not deploy', async function () {
             await deploy.queue(event);
-            deploy.cancel();
+            await deploy.cancel();
             clock.tick(8001);
             td.verify(bcsd.update(context, 'newest'), { times: 0});
+        });
+
+        it('should indicate there is no present restart', async function () {
+            const res = await deploy.cancel();
+            expect(res).to.include('nothing to cancel');
+        });
+
+        it('should confirm when successful', async function () {
+            await deploy.queue(event);
+            const res = await deploy.cancel();
+            expect(res).to.include('cancelled');
         });
     });
 
