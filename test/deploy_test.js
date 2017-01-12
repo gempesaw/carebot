@@ -90,6 +90,29 @@ describe('Deploy', () => {
             await deploy.deploy(context);
             td.verify(bcsd.restart(context));
         });
+
+        describe('messaging', () => {
+            it('should indicate success', async function () {
+                td.when(bcsd.update(context, 'newest'))
+                    .thenReturn('updated');
+                td.when(bcsd.restart(context))
+                    .thenReturn('restarted');
+
+                const ret = await deploy.deploy(context, 'newest', 'event');
+                expect(ret).not.to.be.an('error');
+                expect(ret).to.include('Successfully');
+            });
+
+            it('should indicate failure', async function () {
+                td.when(bcsd.update(context, 'newest'))
+                    .thenReturn(new Error('updated'));
+                td.when(bcsd.restart(context))
+                    .thenReturn(new Error('restarted'));
+
+                const ret = await deploy.deploy(context, 'newest', 'event');
+                expect(ret).to.be.an('error');
+            });
+        });
     });
 
     describe('cancellation', () => {
