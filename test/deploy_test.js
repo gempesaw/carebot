@@ -74,6 +74,28 @@ describe('Deploy', () => {
         td.verify(bcsd.update(context, 'newest'), { times: 0});
     });
 
+    it('should do nothing when current is an error', async function () {
+        td.when(bcsd.current(context)).thenReturn(new Error('current error'));
+        td.when(bcsd.newest(context)).thenReturn('newest');
+        clock = td.timers();
+
+        const res = await deploy.queue(event);
+        clock.tick(8001);
+        expect(res).to.include('not gonna do anything');
+        td.verify(bcsd.update(context, 'newest'), { times: 0});
+    });
+
+    it('should do nothing when newest is an error', async function () {
+        td.when(bcsd.current(context)).thenReturn('current');
+        td.when(bcsd.newest(context)).thenReturn(new Error('newest error'));
+        clock = td.timers();
+
+        const res = await deploy.queue(event);
+        clock.tick(8001);
+        expect(res).to.include('not gonna do anything');
+        td.verify(bcsd.update(context, 'newest'), { times: 0});
+    });
+
     describe('confirmation', () => {
         beforeEach(() => {
             clock = td.timers();
@@ -89,6 +111,12 @@ describe('Deploy', () => {
         it('should send a restart', async function () {
             await deploy.deploy(context);
             td.verify(bcsd.restart(context));
+        });
+
+        it('should not deploy if newest is error', async function () {
+            const newest = new Error('newest error');
+            await deploy.deploy(context, newest);
+            td.verify(bcsd.update(context, newest), { times: 0});
         });
 
         describe('messaging', () => {
