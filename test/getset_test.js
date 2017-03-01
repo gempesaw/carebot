@@ -16,16 +16,16 @@ describe('Get Set!', () => {
 
     it('should store data for retrieval', async function () {
         const result = await getSet.set({ content: '.set setTestKey set test data' });
-        expect(result).to.match(/Okay, set/);
+        expect(result).to.match(/Okay/);
 
         const storedData = await getSet.get({ content: '.get setTestKey' });
         expect(storedData).to.equal('set test data');
     });
 
-    it.only('should fail gracefully when file is missing', async function () {
+    it('should fail gracefully when file is missing', async function () {
         const data = await getSet.get({ content: '.get missingKey' });
-        console.log(data);
-        // expect(data).to.not.be.an('Error');
+        expect(data).to.not.be.an('Error');
+        expect(data).to.include('Invalid key');
     });
 
     it('should only use alphanumeric chars for key', async function () {
