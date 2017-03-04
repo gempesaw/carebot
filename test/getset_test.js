@@ -1,8 +1,10 @@
-import getSet from '~/lib/commands/getset.js';
 import { expect } from 'chai';
 import td from 'testdouble';
 import fsp from 'fs-promise';
 import path from 'path';
+import R from 'ramda';
+
+import getSet from '~/lib/commands/getset.js';
 
 describe('Get Set!', () => {
     const dest = (key = 'testKey') => path.join(__dirname, `../data/${key}`);
@@ -26,6 +28,30 @@ describe('Get Set!', () => {
 
         const storedData = await getSet.get({ content: '.get setTestKey' });
         expect(storedData).to.equal('set test data');
+    });
+
+    it('should not store things that look like commands', async function () {
+        const cheaters = [
+            '.lol',
+            '..lol',
+            '. .lol',
+            '\.lol',
+        ];
+
+        cheaters.forEach(async (cheat) => {
+            const result = await getSet.set({ content: `.set setTestKey ${cheat}` });
+            expect(result).to.match(/Okay/);
+
+            const storedData = await getSet.get({ content: '.get setTestKey' });
+            expect(storedData).to.equal('lol');
+        });
+    });
+
+    it('should not return things that look like commands', async () => {
+        fsp.writeFile(dest(), '.setTestKey');
+
+        const data = await getSet.get({ content: '.get testKey' });
+        expect(data).to.equal('setTestKey');
     });
 
     it('should not store an empty file', async function () {
@@ -63,10 +89,10 @@ describe('Get Set!', () => {
         expect(all).to.not.include('unsetKey');
     });
 
-    after(async () => {
-        const files = [ 'testKey', 'setTestKey', 'heehee5' ]
-              .map(dest);
-        await files.map(async (it) => { await fsp.unlink(it); });
-    });
+    const cleanup = R.pipe(
+        R.map(dest),
+        R.map(fsp.unlink)
+    );
+    after(async () => await Promise.all(cleanup(['testKey', 'setTestKey', 'heehee5'])));
 
 });
