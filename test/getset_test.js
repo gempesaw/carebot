@@ -28,6 +28,14 @@ describe('Get Set!', () => {
         expect(storedData).to.equal('set test data');
     });
 
+    it('should not store an empty file', async function () {
+        const result = await getSet.set({ content: '.set setTestKey' });
+        expect(result).to.match(/Okay/);
+
+        const storedData = await getSet.get({ content: '.get setTestKey' });
+        expect(storedData).to.equal('``');
+    });
+
     it('should fail gracefully when file is missing', async () => {
         const data = await getSet.get({ content: '.get missingKey' });
         expect(data).to.not.be.an('Error');
