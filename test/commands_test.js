@@ -23,6 +23,17 @@ describe('Commands', () => {
         expect(reply).to.match(/assert/);
     });
 
+    it('should include getSet commands in help', async () => {
+        const event = { content: '.set commandsTestKey goodbye' };
+        await handleCommand(event);
+
+        const commands = { assert: { action: () => {} } };
+        const helpMsg = await handleCommand({ content: '.invalid'}, commands);
+        expect(helpMsg).to.match(/assert[^]*commandsTestKey/m);
+
+        await handleCommand({ content: '.unset testKey' });
+    });
+
     it('should only respond to period-prefixed messages', async function () {
         let event = { content: 'no-prefix' };
         let reply = await handleCommand(event, {});
