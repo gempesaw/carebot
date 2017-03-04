@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import handleCommand from '~/lib/commands';
 import td from 'testdouble';
+import getset from '~/lib/commands/getset';
 
 describe('Commands', () => {
     it('should execute the associated command action', async function () {
@@ -47,25 +48,27 @@ describe('Commands', () => {
     describe('getSet integration', () => {
         const key = 'commandsTestKey';
         const assert = 'getSetAssert';
-        beforeEach(async () => {
-            const event = { content: `.set ${key} ${assert}` };
-            await handleCommand(event);
-        });
 
         it('should include getSet commands in help', async () => {
+            td.replace(getset, 'getAll');
+            td.when(getset.getAll())
+                .thenReturn([`${key}`]);
+
             const commands = { assert: { action: () => {} } };
             const helpMsg = await handleCommand({ content: '.invalid'}, commands);
 
-            expect(helpMsg).to.match(/assert[^]*commandsTestKey/m);
+            expect(helpMsg).to.match(new RegExp(`assert[^]*${key}`));
         });
 
         it('should defer to getSet commands when available', async function () {
+            td.replace(getset, 'maybeGet');
+            td.when(getset.maybeGet({content: `.${key}`}))
+                .thenReturn(assert);
+
             const event = { content: '.commandsTestKey' };
             const expected = await handleCommand(event);
 
             expect(expected).to.match(new RegExp(assert));
         });
-
-        after(async () => await handleCommand({ content: '.unset commandsTestKey' }));
     });
 });
