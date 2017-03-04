@@ -17,11 +17,14 @@ describe('Commands', () => {
 
     it('should list commands when invalid command is sent', async function () {
         const event = { content: '.invalid' };
-        const commands = { assert: { action: () => {} } };
+        const commands = { assert: {
+            action: () => {},
+            description: 'desc'
+        } };
 
         const reply = await handleCommand(event, commands);
         console.log(reply);
-        expect(reply).to.match(/assert/);
+        expect(reply).to.match(/assert.*desc/);
     });
 
     it('should only respond to period-prefixed messages', async function () {
