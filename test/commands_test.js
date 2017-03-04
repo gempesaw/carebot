@@ -23,17 +23,6 @@ describe('Commands', () => {
         expect(reply).to.match(/assert/);
     });
 
-    it('should include getSet commands in help', async () => {
-        const event = { content: '.set commandsTestKey goodbye' };
-        await handleCommand(event);
-
-        const commands = { assert: { action: () => {} } };
-        const helpMsg = await handleCommand({ content: '.invalid'}, commands);
-        expect(helpMsg).to.match(/assert[^]*commandsTestKey/m);
-
-        await handleCommand({ content: '.unset testKey' });
-    });
-
     it('should only respond to period-prefixed messages', async function () {
         const event = { content: 'no-prefix' };
         const reply = await handleCommand(event, {});
@@ -53,5 +42,30 @@ describe('Commands', () => {
     it('should not respond to .. prefixed messages', async function () {
         const reply = await handleCommand({ content: '...' });
         expect(reply).to.be.undefined;
+    });
+
+    describe('getSet integration', () => {
+        const key = 'commandsTestKey';
+        const assert = 'getSetAssert';
+        beforeEach(async () => {
+            const event = { content: `.set ${key} ${assert}` };
+            await handleCommand(event);
+        });
+
+        it('should include getSet commands in help', async () => {
+            const commands = { assert: { action: () => {} } };
+            const helpMsg = await handleCommand({ content: '.invalid'}, commands);
+
+            expect(helpMsg).to.match(/assert[^]*commandsTestKey/m);
+        });
+
+        it('should defer to getSet commands when available', async function () {
+            const event = { content: '.commandsTestKey' };
+            const expected = await handleCommand(event);
+
+            expect(expected).to.match(new RegExp(assert));
+        });
+
+        after(async () => await handleCommand({ content: '.unset commandsTestKey' }));
     });
 });
