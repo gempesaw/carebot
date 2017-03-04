@@ -14,6 +14,12 @@ describe('Get Set!', () => {
         expect(getSet.get({ content: '.get testKey' })).to.be.a('Promise');
     });
 
+    it('should return data for casual invocation', async () => {
+        const data = await getSet.maybeGet({ content: '.testKey' });
+        expect(data).to.equal('test data');
+        expect(getSet.get({ content: '.get testKey' })).to.be.a('Promise');
+    });
+
     it('should store data for retrieval', async () => {
         const result = await getSet.set({ content: '.set setTestKey set test data' });
         expect(result).to.match(/Okay/);
