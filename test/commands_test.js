@@ -4,9 +4,9 @@ import td from 'testdouble';
 
 describe('Commands', () => {
     it('should execute the associated command action', async function () {
-        let action = td.function('action');
-        let event = { content: '.cmd' };
-        let commands = {
+        const action = td.function('action');
+        const event = { content: '.cmd' };
+        const commands = {
             cmd: { action: () => Promise.resolve(action('reply')) }
         };
 
@@ -15,10 +15,10 @@ describe('Commands', () => {
     });
 
     it('should list commands when invalid command is sent', async function () {
-        let event = { content: '.invalid' };
-        let commands = { assert: { action: () => {} } };
+        const event = { content: '.invalid' };
+        const commands = { assert: { action: () => {} } };
 
-        let reply = await handleCommand(event, commands);
+        const reply = await handleCommand(event, commands);
         console.log(reply);
         expect(reply).to.match(/assert/);
     });
@@ -35,23 +35,23 @@ describe('Commands', () => {
     });
 
     it('should only respond to period-prefixed messages', async function () {
-        let event = { content: 'no-prefix' };
-        let reply = await handleCommand(event, {});
+        const event = { content: 'no-prefix' };
+        const reply = await handleCommand(event, {});
         expect(reply).to.be.falsy;
     });
 
     it('should ignore non-prefixed messages', async function () {
-        let reply = await handleCommand({ content: 'ignore' }, {});
+        const reply = await handleCommand({ content: 'ignore' }, {});
         expect(reply).to.be.undefined;
     });
 
     it('should not bother with enhance in a private flow', async function () {
-        let reply = await handleCommand({ content: '.enhance' });
+        const reply = await handleCommand({ content: '.enhance' });
         expect(reply).to.match(/cannot upload.*private/);
     });
 
     it('should not respond to .. prefixed messages', async function () {
-        let reply = await handleCommand({ content: '...' });
+        const reply = await handleCommand({ content: '...' });
         expect(reply).to.be.undefined;
     });
 });
