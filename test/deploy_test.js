@@ -8,7 +8,7 @@ import deploy from '~/lib/commands/deploy';
 timers.use(td);
 
 describe('Deploy', () => {
-    const context = 'context';
+    const context = 'context-context';
     const event = { content: `.deploy ${context}` };
 
     let clock;
@@ -165,6 +165,32 @@ describe('Deploy', () => {
             await deploy.queue(event);
             const res = await deploy.cancel();
             expect(res).to.include('cancelled');
+        });
+    });
+
+    describe('expansion', () => {
+        beforeEach(() => {
+            td.replace(bcsd, 'getContexts');
+            td.when(bcsd.getContexts()).thenReturn(['context-context', 'other-context']);
+        });
+
+        it('should try to match shorthand contexts', async () => {
+            const res = await deploy.queue({ content: '.deploy c-c' });
+
+            expect(res).not.to.include('a valid context');
+            td.verify(bcsd.current('context-context'));
+        });
+
+        it('should still reject invalid contexts', async () => {
+            const res = await deploy.queue({ content: '.deploy a-b' });
+            expect(res).to.include('Please specify a valid context');
+            td.verify(bcsd.current(), { times: 0 });
+        });
+
+        it('should display shorthand contexts', async () => {
+            const res = await deploy.contexts();
+
+            expect(res).to.equal('`context-context`|`c-c`, `other-context`|`o-c`');
         });
     });
 
