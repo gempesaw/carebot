@@ -10,7 +10,7 @@ cp lib/config_backup_$SEED.js lib/config.js
 
 set +e
 screen -S flowbot -X quit
-screen -dmS flowbot bash -c "npm start > log"
+screen -dmS flowbot bash -c "npm start > log 2>&1"
 screen -ls
 
 exit 0
