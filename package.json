@@ -1,6 +1,6 @@
 {
   "name": "flowbot",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "sc flowdock bot",
   "main": "index.js",
   "scripts": {
