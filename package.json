@@ -56,5 +56,8 @@
   },
   "pre-commit": [
     "lint"
-  ]
+  ],
+  "engines": {
+    "node": "7.x"
+  }
 }
