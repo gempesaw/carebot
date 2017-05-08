@@ -15,4 +15,5 @@ app.use(_.post('/flowbot', (ctx) => {
     ctx.body = 'post';
 }));
 
-app.listen(config.port || 3000);
+const port = process.env.PORT || config.port || 3000;
+app.listen(port);
